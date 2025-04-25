@@ -13,7 +13,6 @@ An example of an authorzation microservice in Go according to DDD with EDA in a 
 |[Link](https://pkg.go.dev/google.golang.org/grpc) | Go Pkg. for gRPC | google.golang.org/grpc |
 |[Link](https://github.com/go-playground/validator) | Go Pkg. for validation | go-playground |
 |[Link](https://github.com/jackc/pgx) | Go Pkg. postgresql driver | jackc/pgx |
-|[Link](github.com/jackc/pgconn) | Go Pkg. postgresql driver | jackc/pgx |
 
 
 ## Development
