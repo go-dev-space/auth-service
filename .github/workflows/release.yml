@@ -16,21 +16,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Determine next version
+      - name: Read version from file
         id: version
         run: |
-          latest_tag=$(git tag --sort=-v:refname | head -n 1)
-          if [ -z "$latest_tag" ]; then
-            echo "v1.0.0" > version.txt
-            echo "version=v1.0.0" >> $GITHUB_ENV
-          else
-            major=$(echo $latest_tag | cut -d. -f1 | sed 's/v//')
-            minor=$(echo $latest_tag | cut -d. -f2)
-            patch=$(echo $latest_tag | cut -d. -f3)
-            patch=$((patch + 1))
-            echo "v${major}.${minor}.${patch}" > version.txt
-            echo "version=v${major}.${minor}.${patch}" >> $GITHUB_ENV
-          fi
+          version=$(cat version.txt)
+          echo "version=$version" >> $GITHUB_ENV
         
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
