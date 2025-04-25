@@ -11,9 +11,10 @@ jobs:
     name: Build project
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout commit from triggering workflow
+        uses: actions/checkout@v3
         with:
-          ref: main
+          ref: ${{ github.event.workflow_run.head_commit.id }}
           
       - name: Setup Go
         uses: actions/setup-go@v5    
