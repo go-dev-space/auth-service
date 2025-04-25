@@ -22,10 +22,13 @@ jobs:
           curl -Lo sops https://github.com/getsops/sops/releases/download/v3.8.1/sops-v3.8.1.linux.amd64
           chmod +x sops && sudo mv sops /usr/local/bin/ 
         
-      - name: Import GPG key for SOPS
+      - name: Import GPG key for SOPS (with loopback mode)
         run: |
+          echo "use-agent\npinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          gpgconf --kill gpg-agent
           echo "${{ secrets.SOPS_GPG_KEY }}" > private.asc
-          gpg --batch --import private.asc    
+          gpg --batch --import private.asc
 
       - name: Decrypt .env.enc
         run: |
