@@ -1,0 +1,32 @@
+services:
+  auth:
+    container_name: "auth"
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: auth:latest
+    ports:
+      - "8080:3000"
+    env_file:
+      - ../.env       
+    environment:
+      - PORT=3000  
+
+  postgres:
+    image: postgres:latest
+    container_name: 'pg_auth'
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data  
+    networks:
+      - ntwork
+    env_file: ../.env
+
+networks:
+  ntwork:
+    driver: bridge
+
+volumes:
+  pg_data:
