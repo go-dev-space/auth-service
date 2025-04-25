@@ -2,8 +2,8 @@ services:
   auth:
     container_name: "auth"
     build:
-      context: ..
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     image: auth:latest
     ports:
       - "8080:3000"
@@ -11,6 +11,10 @@ services:
       - ../.env       
     environment:
       - PORT=3000  
+    networks:
+      - ntwork  
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:latest

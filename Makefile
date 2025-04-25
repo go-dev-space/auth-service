@@ -30,6 +30,13 @@ docker_dev_up:
 	cd Docker && docker compose up -d postgres
 	@echo "Done!"	
 
+docker_dev_build:
+	@echo "Stopping all containers..."
+	cd Docker && docker compose down 
+	@echo "Starting only postgres container..."
+	cd Docker && docker compose up -d --build 
+	@echo "Done!"		
+
 docker_down:
 	@echo "Stopping all containers..."
 	cd Docker && docker compose down --volumes
