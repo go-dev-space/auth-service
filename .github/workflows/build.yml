@@ -31,7 +31,7 @@ jobs:
           chmod 700 ~/.gnupg
           gpgconf --kill gpg-agent
           echo "${{ secrets.SOPS_GPG_KEY }}" > private.asc
-          gpg --batch --import private.asc
+          gpg --batch --yes --pinentry-mode loopback --import private.asc
 
       - name: Decrypt .env.enc
         run: |
