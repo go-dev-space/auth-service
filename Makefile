@@ -44,7 +44,7 @@ docker_down:
 
 encrypt:
 	@echo "Encrypt .env File"
-	sops --encrypt --pgp 87CBFE717AF74872F700D544D2511A4B048A790D .env > .env.enc
+	sops --encrypt --pgp 38600674253871759CE3C9CC8BFA5F0299EAA8FF .env > .env.enc
 	@echo "Done!"
 
 decrypt:
@@ -54,5 +54,5 @@ decrypt:
 
 get_private_key:
 	@echo "Generate private key for export to Github secrets..."	
-	gpg --export-secret-keys --armor 87CBFE717AF74872F700D544D2511A4B048A790D > sops-private.asc
+	gpg --export-secret-keys --armor 38600674253871759CE3C9CC8BFA5F0299EAA8FF > sops-private.asc
 	@echo "Done!"
