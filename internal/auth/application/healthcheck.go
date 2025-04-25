@@ -1,7 +1,6 @@
 package application
 
-type HealthcheckUseCase struct {
-}
+type HealthcheckUseCase struct{}
 
 func NewHealthcheckUseCase() *HealthcheckUseCase {
 	return &HealthcheckUseCase{}
