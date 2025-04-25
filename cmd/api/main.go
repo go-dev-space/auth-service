@@ -6,6 +6,8 @@ import (
 	"sync"
 
 	"github.com/auth-service/internal/auth/application"
+	"github.com/auth-service/internal/auth/infrastructure/database"
+	"github.com/auth-service/internal/auth/infrastructure/store"
 	"github.com/auth-service/internal/auth/interfaces"
 	"github.com/auth-service/pkg/logs"
 	"github.com/joho/godotenv"
@@ -23,8 +25,19 @@ func main() {
 	// initialize logger
 	logger := logs.New()
 
+	// database
+	db, err := database.NewPostgresql(os.Getenv("POSTGRES_URI"))
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	// store
+	store := store.NewStoreServicePostrgresql(db)
+
 	// use cases
 	healthcheckUC := application.NewHealthcheckUseCase()
+	registrationUC := application.NewRegistrationUserUseCase(store, logger)
 
 	// system instance
 	app := &system{
@@ -33,7 +46,8 @@ func main() {
 			accessHeader: os.Getenv("ACCESS_HEADER"),
 		},
 		handler: &handler{
-			healthcheck: interfaces.NewHealthcheckHandler(logger, healthcheckUC),
+			healthcheck:  interfaces.NewHealthcheckHandler(logger, healthcheckUC),
+			registration: interfaces.NewRegistrationHandler(logger, registrationUC),
 		},
 		logger:    logger,
 		waitgroup: &sync.WaitGroup{},

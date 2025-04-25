@@ -24,12 +24,6 @@ func NewHealthcheckHandler(l *logs.Logwriter, h application.Healthchecker) *Heal
 func (handler *HealthcheckHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	// set header content type
 	w.Header().Set("Content-Type", "application/json")
-	// check request method
-	if r.Method != http.MethodGet {
-		handler.logger.Error.Println("method not allowed")
-		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
 
 	// healthcheck use case
 	result, err := handler.healthcheck.Execute()

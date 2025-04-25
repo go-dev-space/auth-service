@@ -27,7 +27,8 @@ type config struct {
 }
 
 type handler struct {
-	healthcheck *interfaces.HealthcheckHandler
+	healthcheck  *interfaces.HealthcheckHandler
+	registration *interfaces.RegistrationHandler
 }
 
 // mount returns an http.handler for server startup
@@ -42,7 +43,11 @@ func (app system) mount() http.Handler {
 	r.Use(middleware.Recoverer)
 
 	// mount the auth subrouter
-	r.Mount("/v1", interfaces.NewAuthRouter(*app.handler.healthcheck, app.accessHeader))
+	r.Mount("/v1", interfaces.NewAuthRouter(
+		*app.handler.healthcheck,
+		*app.handler.registration,
+		app.accessHeader,
+	))
 
 	return r
 }
