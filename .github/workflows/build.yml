@@ -29,7 +29,7 @@ jobs:
 
       - name: Decrypt .env.enc
         run: |
-          sops -d .env.enc > .env    
+          sops -d --input-type dotenv --output-type dotenv .env.enc > .env   
           
       - name: Setup Go
         uses: actions/setup-go@v5    
