@@ -24,6 +24,6 @@ jobs:
         env:
           GITHUBTOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          docker login ghcr.io -u $GITHUB_ACTOR -p $GITHUBTOKEN
-          docker build . --tag ghcr.io/go-dev-space/auth-service:latest
+          echo $GITHUBTOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          docker build -f docker/Dockerfile -t ghcr.io/go-dev-space/auth-service:latest .
           docker push ghcr.io/go-dev-space/auth-service:latest      
