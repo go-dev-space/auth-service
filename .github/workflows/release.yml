@@ -27,7 +27,7 @@ jobs:
         run: |
           git fetch --tags
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-      
+        
           if [ -z "$latest_tag" ]; then
             commits=$(git log --pretty=format:"%s" --no-merges)
           else
@@ -59,7 +59,10 @@ jobs:
             changelog="$changelog## 🔧 Others\\n$others"
           fi
       
-          echo "RELEASE_BODY=$(echo -e "$changelog")" >> $GITHUB_ENV    
+          echo "$changelog" > release_body.txt
+          echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV
+          cat release_body.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV  
         
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
