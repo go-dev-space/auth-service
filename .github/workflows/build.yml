@@ -25,8 +25,10 @@ jobs:
       - name: Import GPG key for SOPS (with loopback mode)
         run: |
           mkdir -p ~/.gnupg
-          echo "use-agent\npinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "use-agent" >> ~/.gnupg/gpg.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          chmod 700 ~/.gnupg
           gpgconf --kill gpg-agent
           echo "${{ secrets.SOPS_GPG_KEY }}" > private.asc
           gpg --batch --import private.asc
