@@ -33,7 +33,7 @@ jobs:
         
       - name: Tag and Push Docker Image
         env:
-          GITHUBTOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUBTOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           echo $GITHUBTOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           docker pull ghcr.io/go-dev-space/auth-service:latest
