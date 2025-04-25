@@ -22,44 +22,44 @@ jobs:
           version=$(cat version.txt)
           echo "version=$version" >> $GITHUB_ENV
 
-          - name: Generate changelog from commits
-          id: changelog
-          run: |
-            git fetch --tags
-            latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-        
-            if [ -z "$latest_tag" ]; then
-              commits=$(git log --pretty=format:"%s" --no-merges)
+      - name: Generate changelog from commits
+        id: changelog
+        run: |
+          git fetch --tags
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+      
+          if [ -z "$latest_tag" ]; then
+            commits=$(git log --pretty=format:"%s" --no-merges)
+          else
+            commits=$(git log "$latest_tag"..HEAD --pretty=format:"%s" --no-merges)
+          fi
+      
+          features=""
+          fixes=""
+          others=""
+      
+          while IFS= read -r line; do
+            if echo "$line" | grep -q "^feat:"; then
+              features="$features- ${line#feat: }\\n"
+            elif echo "$line" | grep -q "^fix:"; then
+              fixes="$fixes- ${line#fix: }\\n"
             else
-              commits=$(git log "$latest_tag"..HEAD --pretty=format:"%s" --no-merges)
+              others="$others- $line\\n"
             fi
-        
-            features=""
-            fixes=""
-            others=""
-        
-            while IFS= read -r line; do
-              if echo "$line" | grep -q "^feat:"; then
-                features="$features- ${line#feat: }\\n"
-              elif echo "$line" | grep -q "^fix:"; then
-                fixes="$fixes- ${line#fix: }\\n"
-              else
-                others="$others- $line\\n"
-              fi
-            done <<< "$commits"
-        
-            changelog=""
-            if [ -n "$features" ]; then
-              changelog="$changelog## ✨ Features\\n$features\\n"
-            fi
-            if [ -n "$fixes" ]; then
-              changelog="$changelog## 🐛 Fixes\\n$fixes\\n"
-            fi
-            if [ -n "$others" ]; then
-              changelog="$changelog## 🔧 Others\\n$others"
-            fi
-        
-            echo "RELEASE_BODY=$(echo -e "$changelog")" >> $GITHUB_ENV    
+          done <<< "$commits"
+      
+          changelog=""
+          if [ -n "$features" ]; then
+            changelog="$changelog## ✨ Features\\n$features\\n"
+          fi
+          if [ -n "$fixes" ]; then
+            changelog="$changelog## 🐛 Fixes\\n$fixes\\n"
+          fi
+          if [ -n "$others" ]; then
+            changelog="$changelog## 🔧 Others\\n$others"
+          fi
+      
+          echo "RELEASE_BODY=$(echo -e "$changelog")" >> $GITHUB_ENV    
         
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
