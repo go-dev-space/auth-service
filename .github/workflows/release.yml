@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+
+jobs:
+  create-release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Determine next version
+        id: version
+        run: |
+          latest_tag=$(git tag --sort=-v:refname | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            echo "v1.0.0" > version.txt
+            echo "version=v1.0.0" >> $GITHUB_ENV
+          else
+            major=$(echo $latest_tag | cut -d. -f1 | sed 's/v//')
+            minor=$(echo $latest_tag | cut -d. -f2)
+            patch=$(echo $latest_tag | cut -d. -f3)
+            patch=$((patch + 1))
+            echo "v${major}.${minor}.${patch}" > version.txt
+            echo "version=v${major}.${minor}.${patch}" >> $GITHUB_ENV
+          fi
+        
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.version }}
+          name: Release ${{ env.version }}
+          body: |
+            🛠 Changes:
+            - Auto-generated release
+        
+      - name: Tag and Push Docker Image
+        env:
+          GITHUBTOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo $GITHUBTOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          docker pull ghcr.io/go-dev-space/auth-service:latest
+          docker tag ghcr.io/go-dev-space/auth-service:latest ghcr.io/go-dev-space/auth-service:${{ env.version }}
+          docker push ghcr.io/go-dev-space/auth-service:${{ env.version }}
