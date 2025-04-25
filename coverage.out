@@ -1,0 +1,14 @@
+mode: set
+github.com/auth-service/internal/auth/interfaces/healthcheck.go:17.96,22.2 1 1
+github.com/auth-service/internal/auth/interfaces/healthcheck.go:24.83,30.16 3 1
+github.com/auth-service/internal/auth/interfaces/healthcheck.go:30.16,39.3 3 0
+github.com/auth-service/internal/auth/interfaces/healthcheck.go:41.2,46.4 1 1
+github.com/auth-service/internal/auth/interfaces/router.go:11.126,16.43 3 0
+github.com/auth-service/internal/auth/interfaces/router.go:16.43,19.3 1 0
+github.com/auth-service/internal/auth/interfaces/router.go:21.2,21.10 1 0
+github.com/auth-service/internal/auth/interfaces/user_registration.go:17.94,22.2 1 0
+github.com/auth-service/internal/auth/interfaces/user_registration.go:24.84,33.48 6 0
+github.com/auth-service/internal/auth/interfaces/user_registration.go:33.48,37.3 3 0
+github.com/auth-service/internal/auth/interfaces/user_registration.go:40.2,41.16 2 0
+github.com/auth-service/internal/auth/interfaces/user_registration.go:41.16,52.3 3 0
+github.com/auth-service/internal/auth/interfaces/user_registration.go:54.2,61.4 1 0
