@@ -51,3 +51,8 @@ decrypt:
 	@echo "Deccrypt .env File"	
 	sops --decrypt .env.enc > .env
 	@echo "Done!"
+
+get_private_key:
+	@echo "Generate private key for export to Github secrets..."	
+	gpg --export-secret-keys --armor 87CBFE717AF74872F700D544D2511A4B048A790D > sops-private.asc
+	@echo "Done!"
