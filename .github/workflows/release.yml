@@ -63,6 +63,7 @@ jobs:
           echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV
           cat release_body.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV  
+          echo -e "$changelog" > release_body.txt
         
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -72,6 +73,7 @@ jobs:
           body: |
             🛠 Changes:
             ${{ env.RELEASE_BODY }}
+          body_path: release_body.txt  
         
       - name: Tag and Push Docker Image
         env:
