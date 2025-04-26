@@ -42,6 +42,15 @@ docker_down:
 	cd Docker && docker compose down --volumes
 	@echo "Done!"	
 
+compile_proto:
+	@echo "Compile proto files..."	
+	@( \
+		cd ./internal/auth/infrastructure/grpc/proto && \
+		protoc --go_out=../generated --go-grpc_out=../generated \
+		--go_opt=paths=source_relative --go-grpc_opt=paths=source_relative ./registration.proto \
+	)
+	@echo "Done!"	
+
 encrypt:
 	@echo "Encrypt .env File"
 	sops --encrypt --pgp 38600674253871759CE3C9CC8BFA5F0299EAA8FF .env > .env.enc

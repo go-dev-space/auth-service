@@ -208,6 +208,15 @@ To activate the Minikube LoadBalancer, one last command must be entered:
 $ minikube service <METADATA NAME HERE>
 ```
 
+## Docker
+### Container & Builds
+Last but not least, a note for pure operation with docker containers only (without hot reloading by air-verse or minikube).
+
+```
+# Enter in your terminal:
+$ make docker_dev_up
+```
+
 ## Documentation
 ### For further information 
 
