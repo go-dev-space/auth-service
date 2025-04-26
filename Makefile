@@ -47,6 +47,11 @@ encrypt:
 	sops --encrypt --pgp 38600674253871759CE3C9CC8BFA5F0299EAA8FF .env > .env.enc
 	@echo "Done!"
 
+encrypt_secret:
+	@echo "Encrypt .env File"
+	cd kubernetes && sops --encrypt --pgp 38600674253871759CE3C9CC8BFA5F0299EAA8FF postgres-secret.yml > postgres-secret.yml.enc
+	@echo "Done!"	
+
 decrypt:
 	@echo "Deccrypt .env File"	
 	sops --decrypt .env.enc > .env

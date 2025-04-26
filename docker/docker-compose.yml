@@ -18,7 +18,7 @@ services:
 
   postgres:
     image: postgres:latest
-    container_name: 'pg_auth'
+    container_name: 'pgauth'
     restart: always
     ports:
       - "5433:5432"
