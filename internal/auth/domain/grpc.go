@@ -1,5 +1,5 @@
 package domain
 
 type GRPC interface {
-	Save()
+	Send(string, int) (string, error)
 }

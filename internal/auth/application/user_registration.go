@@ -5,6 +5,7 @@ import (
 
 	"github.com/auth-service/internal/auth/domain"
 	"github.com/auth-service/internal/auth/infrastructure/crypto"
+	"github.com/auth-service/internal/auth/infrastructure/grpc"
 	"github.com/auth-service/internal/auth/infrastructure/mailer"
 	"github.com/auth-service/internal/auth/infrastructure/validator"
 	"github.com/auth-service/internal/auth/interfaces/dto"
@@ -15,6 +16,7 @@ type RegistrationUserUseCase struct {
 	store     domain.Store
 	logger    *logs.Logwriter
 	crypto    domain.Crypto
+	grpc      domain.GRPC
 	mailer    domain.Mailer
 	validator domain.Validator
 }
@@ -24,6 +26,7 @@ func NewRegistrationUserUseCase(s domain.Store, l *logs.Logwriter) *Registration
 		store:     s,
 		logger:    l,
 		crypto:    crypto.New(),
+		grpc:      grpc.NewGRPCServiceRegistration("localhost:50051"),
 		mailer:    mailer.New("", "", "", 465),
 		validator: validator.New(),
 	}
@@ -61,7 +64,13 @@ func (uc *RegistrationUserUseCase) Execute(ctx context.Context, p *dto.Payload) 
 		return map[string]string{"store": err.Error()}, err
 	}
 
-	// TODO: send grpc / mail / push to nats message broker
+	// send grpc
+	// res, err := uc.grpc.Send(p.Email,1)
+
+	// or send mail
+	// err = uc.mailer.Send(p.Email,"registration done","mail body")
+
+	// or push to nats (eda)
 
 	return nil, nil
 }

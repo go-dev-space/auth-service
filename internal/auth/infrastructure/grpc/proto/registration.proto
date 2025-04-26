@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/auth-service/internal/auth/infrastructure/grpc/generated;registration";
+
+package registration;
+
+service Registration{
+  rpc Do(req) returns(res);
+}
+
+message req{
+  string email = 1;
+  int64 userid = 2;
+}
+
+message res{
+  string response = 1;
+}
