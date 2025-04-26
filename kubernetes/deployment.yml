@@ -19,8 +19,10 @@ spec:
           image: ghcr.io/go-dev-space/auth-service:latest 
           livenessProbe:
             httpGet:
-              path: /
-              port: 3000
-              #httpHeaders
+              path: /v1/healthcheck
+              port: 8080
+              httpHeaders:
+                - name: "X-Access-Header"
+                  value: "2cf24dba5fb"
             periodSeconds: 10
             initialDelaySeconds: 5
