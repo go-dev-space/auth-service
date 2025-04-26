@@ -53,9 +53,14 @@ encrypt_secret:
 	@echo "Done!"	
 
 decrypt:
-	@echo "Deccrypt .env File"	
+	@echo "Decrypt .env File"	
 	sops --decrypt .env.enc > .env
 	@echo "Done!"
+
+decrypt_secret:
+	@echo "Decrypt .env File"	
+	cd kubernetes && sops --decrypt postgres-secret.yml.enc > postgres-secret.yml
+	@echo "Done!"	
 
 get_private_key:
 	@echo "Generate private key for export to Github secrets..."	
