@@ -12,6 +12,8 @@ spec:
       labels:
         app: auth-service
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: auth-service-app
           image: ghcr.io/go-dev-space/auth-service:latest 
