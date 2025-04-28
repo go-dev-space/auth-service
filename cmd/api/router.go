@@ -54,7 +54,7 @@ func (app system) mount() http.Handler {
 		))
 
 		// mount the auth subrouter
-		r.Mount("/auth", interfaces.NewAuthRouter(
+		r.Mount("/auth", interfaces.NewRouter(
 			*app.handler.healthcheck,
 			*app.handler.registration,
 			app.accessHeader,
