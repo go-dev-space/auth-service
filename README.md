@@ -14,6 +14,7 @@ An example of an authorization microservice in Go according to DDD with EDA in a
 |[Repositry Link](https://pkg.go.dev/google.golang.org/grpc) | gRPC package | google.golang.org/grpc |
 |[Repositry Link](https://github.com/go-playground/validator) | validation pkg | go-playground |
 |[Repositry Link](https://github.com/jackc/pgx) | postgresql driver pkg | jackc/pgx |
+|[Repositry Link](https://github.com/swaggo/http-swagger) | http-swagger pkg |swaggo/http-swagger |
 
 
 ## Development
