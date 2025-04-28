@@ -20,7 +20,7 @@ func Test_Router(t *testing.T) {
 		expectedStatus int
 	}{
 		{"Healthcheck route", ``, "/healthcheck", http.MethodGet, http.StatusOK},
-		{"Registration route", `{"email":"user@domain.com","password":"a1b2"}`, "/auth/user/create", http.MethodPost, http.StatusOK},
+		{"Registration route", `{"email":"user@domain.com","password":"a1b2"}`, "/user/create", http.MethodPost, http.StatusOK},
 	}
 
 	logger := &logs.Logwriter{}
