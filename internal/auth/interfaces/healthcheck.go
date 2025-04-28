@@ -28,10 +28,10 @@ func NewHealthcheckHandler(l *logs.Logwriter, h application.Healthchecker) *Heal
 //	@Tags			healthcheck
 //	@Accept			json
 //	@Produce		json
-//	@Param			Authorization	header		string	true	"X-Access-Token"
+//	@Param			X-Access-Header	header		string	true	"Access Header for health route"
 //	@Success		200				{object}	dto.Response
 //	@Failure		400				{object}	dto.Response
-//	@Router			/healthcheck [get]
+//	@Router			/auth/healthcheck [get]
 func (handler *HealthcheckHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	// set header content type
 	w.Header().Set("Content-Type", "application/json")
