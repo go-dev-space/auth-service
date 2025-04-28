@@ -4,3 +4,4 @@ bin/main
 sops-private.asc
 /db/data/postgres
 kubernetes/postgres-secret.yml
+docs

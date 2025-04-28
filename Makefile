@@ -75,3 +75,8 @@ get_private_key:
 	@echo "Generate private key for export to Github secrets..."	
 	gpg --export-secret-keys --armor 38600674253871759CE3C9CC8BFA5F0299EAA8FF > sops-private.asc
 	@echo "Done!"
+
+generate-swagger-docs:
+	@echo "Generate swagger documentation..."	
+	swag init -g ./cmd/api/main.go && swag fmt
+	@echo "Done!"	
