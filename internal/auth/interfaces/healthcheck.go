@@ -21,6 +21,17 @@ func NewHealthcheckHandler(l *logs.Logwriter, h application.Healthchecker) *Heal
 	}
 }
 
+// Healthcheck Handler
+//
+//	@Summary		Healthcheck for api (Kubernetes)
+//	@Description	check the api health
+//	@Tags			healthcheck
+//	@Accept			json
+//	@Produce		json
+//	@Param			Authorization	header		string	true	"X-Access-Token"
+//	@Success		200				{object}	dto.Response
+//	@Failure		400				{object}	dto.Response
+//	@Router			/healthcheck [get]
 func (handler *HealthcheckHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	// set header content type
 	w.Header().Set("Content-Type", "application/json")

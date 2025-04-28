@@ -21,6 +21,16 @@ func NewRegistrationHandler(l *logs.Logwriter, r application.Registrar) *Registr
 	}
 }
 
+// ShowAccount godoc
+//	@Summary		Show an account
+//	@Description	get string by ID
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"Account ID"
+//	@Success		200	{object}	dto.Response
+//	@Failure		400	{object}	dto.Response
+//	@Router			/accounts/{id} [get]
 func (handler *RegistrationHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
