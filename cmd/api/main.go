@@ -13,6 +13,25 @@ import (
 	"github.com/joho/godotenv"
 )
 
+//	@title			go-dev-space - [auth-service]
+//	@version		1.0.6
+//	@description	An example of an authorization microservice in Go according to DDD with EDA in a kubernetes cluster..
+//	@termsOfService	http://swagger.io/terms/
+
+//	@contact.name	API Support
+//	@contact.url	http://www.swagger.io/support
+//	@contact.email	support@swagger.io
+
+//	@license.name	MIT License
+//	@license.url	https://github.com/go-dev-space/auth-service?tab=MIT-1-ov-file
+
+//	@host		localhost:8080
+//	@BasePath	/v1
+
+// @securityDefinitions.basic	BasicAuth
+// @in							header
+// @name						Authorization
+// @description
 func main() {
 
 	// load env file
@@ -44,6 +63,7 @@ func main() {
 		config: &config{
 			addr:         fmt.Sprintf(":%s", os.Getenv("PORT")),
 			accessHeader: os.Getenv("ACCESS_HEADER"),
+			swagger:      os.Getenv("SWAGGER_PATH"),
 		},
 		handler: &handler{
 			healthcheck:  interfaces.NewHealthcheckHandler(logger, healthcheckUC),

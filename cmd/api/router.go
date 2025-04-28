@@ -12,6 +12,7 @@ import (
 	"github.com/auth-service/pkg/logs"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 type system struct {
@@ -24,6 +25,7 @@ type system struct {
 type config struct {
 	addr         string
 	accessHeader string
+	swagger      string
 }
 
 type handler struct {
@@ -42,12 +44,22 @@ func (app system) mount() http.Handler {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	// mount the auth subrouter
-	r.Mount("/v1", interfaces.NewAuthRouter(
-		*app.handler.healthcheck,
-		*app.handler.registration,
-		app.accessHeader,
-	))
+	// serve swagger.json static
+	r.Handle("/swagger.json", http.FileServer(http.Dir("./docs")))
+
+	r.Route("/v1", func(r chi.Router) {
+		// swagger route
+		r.Get("/swagger-ui/*", httpSwagger.Handler(
+			httpSwagger.URL(app.config.swagger),
+		))
+
+		// mount the auth subrouter
+		r.Mount("/auth", interfaces.NewRouter(
+			*app.handler.healthcheck,
+			*app.handler.registration,
+			app.accessHeader,
+		))
+	})
 
 	return r
 }

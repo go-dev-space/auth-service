@@ -1,6 +1,7 @@
 bin/main
 .env
-.coverage
+.coverage.out
 sops-private.asc
 /db/data/postgres
 kubernetes/postgres-secret.yml
+docs

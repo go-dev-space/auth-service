@@ -6,14 +6,16 @@ An example of an authorization microservice in Go according to DDD with EDA in a
 ## Quick Links
 | Link | Description | Credential |
 |------|-------------|------------|
-|http://localhost:8080 | Local development | air-verse |
-|http://localhost:50015 | Local development | minikube |
+|http://localhost:8080 | local development | air-verse |
+|http://localhost:50015 | local development | minikube |
+|http://localhost:8080/v1/swagger-ui/ | local swagger | swagger |
 |[Repositry Link](https://github.com/go-chi/chi) | router framework pkg | go-chi/chi |
 |[Repositry Link](https://github.com/joho/godotenv) | env files loader pkg | joho/godotenv |
 |[Repositry Link](https://github.com/golang-migrate) | postgre migration pkg | golang-migrate |
 |[Repositry Link](https://pkg.go.dev/google.golang.org/grpc) | gRPC package | google.golang.org/grpc |
 |[Repositry Link](https://github.com/go-playground/validator) | validation pkg | go-playground |
 |[Repositry Link](https://github.com/jackc/pgx) | postgresql driver pkg | jackc/pgx |
+|[Repositry Link](https://github.com/swaggo/http-swagger) | http-swagger pkg |swaggo/http-swagger |
 
 
 ## Development
@@ -215,6 +217,67 @@ Last but not least, a note for pure operation with docker containers only (witho
 ```
 # Enter in your terminal:
 $ make docker_dev_up
+```
+
+## Swagger Documentation
+
+The project provides a **live Swagger-UI** for easier testing and understanding of all API routes during development.
+
+### Local Usage
+
+Once the application is running locally (via `air` or `make run`), you can access the Swagger documentation under:
+http://localhost:8080/v1/swagger-ui/index.html
+
+The Swagger-UI will automatically load the generated OpenAPI 3.0 specification based on the code comments.
+
+**Notes:**
+- The OpenAPI specification is dynamically generated via [swaggo/swag](https://github.com/swaggo/swag) based on Go annotations.
+- The documentation is automatically regenerated on every code change through the `make generate-swagger-docs` command (configured in the `air.toml`).
+
+### How to regenerate Swagger documentation manually
+
+If you need to manually update the Swagger documentation (e.g., after changing a route, DTO, or comments), simply run:
+
+```bash
+$ make generate-swagger-docs
+```
+This will:
+	•	Parse all Swagger annotations in the project,
+	•	Generate or update the files:
+	•	./docs/swagger.json
+	•	./docs/swagger.yaml
+	•	./docs/docs.go
+
+### Example of a Swagger route documentation
+
+Below is a typical example of documenting an API handler:
+```
+// CreateUser godoc
+//
+//	@Summary		Create a new user
+//	@Description	This endpoint registers a new user in the system
+//	@Tags			User
+//	@Accept			json
+//	@Produce		json
+//	@Param			payload body dto.RegisterUserRequest true "User Registration Payload"
+//	@Success		201 {object} dto.RegisterUserResponse
+//	@Failure		400 {object} dto.ErrorResponse
+//	@Router			/v1/user/create [post]
+func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
+	// handler logic here
+}
+```
+For Swagger to correctly generate the documentation, ensure that your DTO structs are properly exported and annotated.
+
+### Production Note
+In production mode, the Swagger-UI should be disabled for security reasons.
+This can be easily managed by using environment-based conditions in the router setup.
+```
+if app.config.Environment == "development" {
+	r.Get("/v1/swagger-ui/*", httpSwagger.Handler(
+		httpSwagger.URL(app.config.swagger),
+	))
+} 
 ```
 
 ## Documentation

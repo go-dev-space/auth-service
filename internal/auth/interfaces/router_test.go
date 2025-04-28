@@ -34,7 +34,7 @@ func Test_Router(t *testing.T) {
 	registerHandler := NewRegistrationHandler(logger, &MockRegistrationUserUseCase{})
 	healthcheckHandler := NewHealthcheckHandler(logger, &MockHealthcheckUseCase{})
 
-	authRouter := NewAuthRouter(*healthcheckHandler, *registerHandler, accessHeader)
+	authRouter := NewRouter(*healthcheckHandler, *registerHandler, accessHeader)
 
 	for _, test := range tests {
 
